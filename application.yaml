@@ -5,9 +5,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: localhost:5000
-    path: /nodejsapp/
-    targetRevision: latest
+    repoURL: https://github.com/madlopt/test
   destination:
     namespace: default
     server: https://kubernetes.default.svc
