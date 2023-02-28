@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejsapp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: nodejsapp
+  template:
+    metadata:
+      labels:
+        app: nodejsapp
+    spec:
+      containers:
+      - image: localhost:5000/nodejsapp:latest
+        name: nodejsapp
+        ports:
+        - containerPort: 80
