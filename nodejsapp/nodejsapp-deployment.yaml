@@ -16,5 +16,11 @@ spec:
       containers:
       - image: madloptus/nodejsapp:latest
         name: nodejsapp
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "10m"
+          limits:
+            memory: "128Mi"
         ports:
         - containerPort: 80
