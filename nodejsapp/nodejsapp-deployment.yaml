@@ -14,7 +14,7 @@ spec:
         app: nodejsapp
     spec:
       containers:
-      - image: localhost:5000/nodejsapp:latest
+      - image: madloptus/nodejsapp:latest
         name: nodejsapp
         ports:
         - containerPort: 80
