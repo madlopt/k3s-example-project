@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nodejsapp-deployment
+spec:
+  project: default
+  source:
+    repoURL: localhost:5000
+    path: /nodejsapp/
+    targetRevision: latest
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
