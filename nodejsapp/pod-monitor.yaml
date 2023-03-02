@@ -12,7 +12,7 @@ spec:
     matchNames:
       - dev
   podMetricsEndpoints:
-    - port: web
+    - targetPort: 80
       scheme: http
       interval: 15s
       scrapeTimeout: 14s
