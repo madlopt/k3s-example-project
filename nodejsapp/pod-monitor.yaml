@@ -10,7 +10,7 @@ spec:
       app: nodejsapp
   namespaceSelector:
     matchNames:
-      - dev
+      - default
   podMetricsEndpoints:
     - port: web
       scheme: http
