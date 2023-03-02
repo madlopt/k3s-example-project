@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nodejsapp-application
+      app: nodejsapp
   namespaceSelector:
     matchNames:
       - dev
