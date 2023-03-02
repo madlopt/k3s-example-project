@@ -4,6 +4,7 @@ metadata:
   name: nodejapp-metrics
   labels:
     app: nodejsapp
+    release: kube-prometheus-stack
 spec:
   selector:
     matchLabels:
