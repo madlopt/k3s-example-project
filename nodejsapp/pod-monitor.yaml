@@ -3,7 +3,7 @@ kind: PodMonitor
 metadata:
   name: nodejapp-metrics
   labels:
-    release: kube-prometheus-stack
+    app: nodejsapp
 spec:
   selector:
     matchLabels:
