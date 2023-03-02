@@ -1,11 +1,16 @@
-apiVersion: v1
-kind: Service
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
 metadata:
-  name: nodejsapp
-spec:
-  ports:
-  - name: web
-    port: 80
-    targetPort: 80
-  selector:
+  name: nodejapp-metrics
+  labels:
     app: nodejsapp
+spec:
+  selector:
+    matchLabels:
+      app: nodejsapp
+  podMetricsEndpoints:
+    - port: web
+      scheme: http
+      interval: 15s
+      scrapeTimeout: 14s
+      path: /metrics
