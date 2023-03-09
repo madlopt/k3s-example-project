@@ -4,13 +4,11 @@ metadata:
   name: nodejapp-metrics
   labels:
     app: nodejsapp
+    release: kube-prometheus-stack
 spec:
   selector:
     matchLabels:
       app: nodejsapp
-  namespaceSelector:
-    matchNames:
-      - default
   podMetricsEndpoints:
     - port: web
       scheme: http
