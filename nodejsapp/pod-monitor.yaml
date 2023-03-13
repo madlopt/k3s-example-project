@@ -4,7 +4,6 @@ metadata:
   name: nodejsapp-metrics
   labels:
     app: nodejsapp
-    release: kube-prometheus-stack
 spec:
   podMetricsEndpoints:
     - interval: 15s
