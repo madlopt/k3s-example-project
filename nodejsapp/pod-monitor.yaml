@@ -10,6 +10,7 @@ spec:
       path: /metrics
       scheme: http
       port: web
+      honorLabels: true
   selector:
     matchLabels:
       app: nodejsapp
