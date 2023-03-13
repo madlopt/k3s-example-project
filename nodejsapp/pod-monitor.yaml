@@ -10,4 +10,5 @@ spec:
     matchLabels:
       app: nodejsapp
   podMetricsEndpoints:
-    - port: web
+    - interval: 15s
+      port: web
