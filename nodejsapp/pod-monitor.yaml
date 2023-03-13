@@ -1,7 +1,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: nodejapp-pod-monitor
+  name: nodejsapp-pod-monitor
   labels:
     app: nodejsapp
     release: kube-prometheus-stack
@@ -11,7 +11,3 @@ spec:
       app: nodejsapp
   podMetricsEndpoints:
     - port: web
-      scheme: http
-      interval: 15s
-      scrapeTimeout: 14s
-      path: /metrics
