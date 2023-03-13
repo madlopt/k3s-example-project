@@ -8,7 +8,6 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nodejsapp
       release: kube-prometheus-stack
   podMetricsEndpoints:
     - port: web
