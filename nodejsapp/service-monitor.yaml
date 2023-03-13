@@ -6,7 +6,7 @@ metadata:
     app: nodejsapp
 spec:
   endpoints:
-    - interval: 30s
+    - interval: 15s
       port: web
   selector:
     matchLabels:
