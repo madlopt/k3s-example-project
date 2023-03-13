@@ -9,7 +9,6 @@ spec:
     - interval: 15s
       path: /metrics
       scheme: http
-      scrapeTimeout: 14s
       port: web
   selector:
     matchLabels:
