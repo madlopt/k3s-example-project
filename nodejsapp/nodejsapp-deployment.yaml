@@ -22,5 +22,17 @@ spec:
             cpu: "10m"
           limits:
             memory: "128Mi"
+        env:
+          - name: METRICS_ROUTE
+            value: "/metrics"
+          - name: METRICS_PORT
+            value: "80"
+          - name: METRICS_COMPONENT
+            value: "applications"
+          - name: METRICS_SOURCE
+            value: "nodejs-test-app"
+          - name: METRICS_NAMESPACE
+            value: "default"
+
         ports:
         - containerPort: 80
