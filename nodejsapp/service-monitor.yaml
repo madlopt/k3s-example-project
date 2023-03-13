@@ -4,10 +4,11 @@ metadata:
   name: nodejsapp-service-monitor
   labels:
     app: nodejsapp
+    release: kube-prometheus-stack
 spec:
   endpoints:
     - interval: 30s
       port: web
   selector:
     matchLabels:
-      app: nodejsapp
+      release: kube-prometheus-stack
