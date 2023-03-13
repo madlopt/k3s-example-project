@@ -1,7 +1,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: nodejsapp-metrics
+  name: nodejsapp-pod-monitor
   labels:
     app: nodejsapp
     release: kube-prometheus-stack
@@ -15,4 +15,3 @@ spec:
   selector:
     matchLabels:
       app: nodejsapp
-      release: kube-prometheus-stack
