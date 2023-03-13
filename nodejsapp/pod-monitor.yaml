@@ -14,4 +14,5 @@ spec:
       port: web
   selector:
     matchLabels:
+      app: nodejsapp
       release: kube-prometheus-stack
