@@ -23,6 +23,10 @@ spec:
           limits:
             memory: "128Mi"
         env:
+          - name: PROJECT_NAME
+            value: "nodejs-test-app"
+          - name: CONSOLE_LOG_TIMEOUT
+            value: "5000"
           - name: METRICS_ROUTE
             value: "/metrics"
           - name: METRICS_PORT
@@ -33,6 +37,5 @@ spec:
             value: "nodejs-test-app"
           - name: METRICS_NAMESPACE
             value: "default"
-
         ports:
         - containerPort: 80
