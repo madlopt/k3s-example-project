@@ -2,7 +2,7 @@
 
 This project is for developers who want to try and play with Kubernetes themselves but never had an opportunity to do so. 
 I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io. So, you can run it on your laptop easily.
-All the commands are tested on Ubuntu 22.04.
+All the commands are tested on Ubuntu 22.04. k3d and k3s versions I've used are here:
 ```bash
 k3d version v5.4.6
 k3s version v1.24.4-k3s1
