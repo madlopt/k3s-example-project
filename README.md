@@ -81,7 +81,7 @@ To create a new project in the default namespace, run:
 ```bash
 kubectl create -n argocd -f project/development-project.yaml
 ```
-###  Prometheus
+###  Prometheus Installation
 Deploy Prometheus using the following command:
 
 ```bash
@@ -120,7 +120,7 @@ Create the Prometheus ServiceMonitor:
 kubectl apply -f prometheus/prometheus-servicemonitor.yaml
 ```
 
-### Grafana
+### Grafana Installation
 
 To install Grafana, follow these steps:
 
@@ -156,7 +156,7 @@ Look for the prometheus service and note the ClusterIP address.
 
 Import the Prometheus dashboard by going to https://grafana.com/grafana/dashboards/3662-prometheus-2-0-overview/ and using the dashboard ID `3662`.
 
-### Node.js Application
+### Node.js Application Installation
 To install the Node.js application, follow these steps:
 
 Create the necessary Kubernetes resources using the following command:
