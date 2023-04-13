@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: development
+  labels:
+    app: development
+spec:
+  # Project description
+  description: Demo ArgoCD Project to deploy our apps locally
+  # Allow manifests to deploy only from specific git repositories
+  sourceRepos:
+  - "https://github.com/madlopt/*"
+  # Only permit to deploy applications in the same cluster
+  destinations:
+  - namespace: default
+    server: https://kubernetes.default.svc
+  # Enables namespace orphaned resource monitoring.
+  orphanedResources:
+    warn: false

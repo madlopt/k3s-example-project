@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejsapp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: nodejsapp
+  template:
+    metadata:
+      labels:
+        app: nodejsapp
+    spec:
+      containers:
+      - image: madloptus/nodejsapp:latest
+        name: nodejsapp
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "10m"
+          limits:
+            memory: "128Mi"
+        env:
+          - name: PROJECT_NAME
+            value: "nodejs-test-app"
+          - name: CONSOLE_LOG_TIMEOUT
+            value: "5000"
+          - name: METRICS_ROUTE
+            value: "/metrics"
+          - name: METRICS_PORT
+            value: "80"
+          - name: METRICS_COMPONENT
+            value: "applications"
+          - name: METRICS_SOURCE
+            value: "nodejs-test-app"
+          - name: METRICS_NAMESPACE
+            value: "default"
+        ports:
+        - containerPort: 80
