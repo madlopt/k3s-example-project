@@ -24,8 +24,8 @@ Before proceeding, make sure you have the following software installed:
 * kubectl
 * k3d
 
-### Installation
-Run the following commands to install k3d:
+### k3d and kubectl installation
+Run the following commands to install k3d and kubectl:
 
 ```bash
 sudo apt-get update
