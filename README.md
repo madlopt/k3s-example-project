@@ -16,7 +16,7 @@ The project includes/uses the following components:
 * Grafana
 * Example NodeJS app deployed to Kubernetes from here https://github.com/madlopt/simple-nodejs-app
 
-After installation, you will be able to see metric of the NodeJS app in Grafana dashboard, see logs of it in ArgoCD.
+After installation, you will be able to see metrics of the NodeJS app in Grafana dashboard, see logs of it in ArgoCD, see what Prometheus is collecting and so on.
 
 ### Prerequisites
 Before proceeding, make sure you have the following software installed:
