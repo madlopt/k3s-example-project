@@ -1,8 +1,12 @@
 # k3s-example-project
 
-This project is for developers who want to try and play with Kubernetes themselves but never had an opportunity to do so. 
+This project is for developers who want to try and play with Kubernetes themselves but never had an opportunity to do so.
+
+After installation, you will have a Kubernetes cluster with ArgoCD, Ingress, Prometheus, Grafana and a simple NodeJS app deployed to it.
+So, you can learn how to deploy your own apps to Kubernetes and monitor them, learn how to use ArgoCD, Prometheus and Grafana.
+
 I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io. So, you can run it on your laptop easily.
-All the commands are tested on Ubuntu 22.04. k3d and k3s versions I've used are here:
+All the commands are tested on Ubuntu 22.04.
 ```bash
 k3d version v5.4.6
 k3s version v1.24.4-k3s1
@@ -16,16 +20,14 @@ The project includes/uses the following components:
 * Grafana
 * Example NodeJS app deployed to Kubernetes from here https://github.com/madlopt/simple-nodejs-app
 
-After installation, you will be able to see metrics of the NodeJS app in provisioning Grafana dashboard, see logs of it in ArgoCD, see what Prometheus is collecting, play with kubectl on the working cluster and so on.
-
 ### Prerequisites
 Before proceeding, make sure you have the following software installed:
 
 * kubectl
 * k3d
 
-### k3d and kubectl installation
-Run the following commands to install k3d and kubectl:
+### Installation
+Run the following commands to install k3d:
 
 ```bash
 sudo apt-get update
@@ -47,11 +49,7 @@ Create a k3d cluster by running the following command:
 ```bash
 k3d cluster create dev-cluster --port 8080:80@loadbalancer --port 8443:443@loadbalancer
 ```
-To delete the cluster, run:
 
-```bash
-k3d cluster delete --all
-```
 ###  ArgoCD Installation
 Create the ArgoCD namespace and deploy it:
 
@@ -59,7 +57,7 @@ Create the ArgoCD namespace and deploy it:
 kubectl create namespace argocd
 kubectl create -n argocd -f argocd/install.yaml
 ```
-You can create the ArgoCD ingress by running:
+We need Ingress for ArgoCD. You can create the ArgoCD ingress by running:
 
 ```bash
 kubectl apply -f ingress/ingress.yaml -n argocd
@@ -69,23 +67,15 @@ Get the initial admin password by running:
 ```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo
 ```
-You can access the ArgoCD dashboard by visiting http://localhost:8080/argocd.
+If it says `Error from server (NotFound): secrets "argocd-initial-admin-secret" not found` wait a bit, probably ArgoCD is not ready yet.
 
-If you need to create a development namespace, run:
+You can access the ArgoCD dashboard by visiting http://localhost:8080/argocd, login is `admin`, check it after running the command above.
 
-```bash
-kubectl create namespace dev
-```
-To create a new project in the default namespace, run:
+###  Prometheus
+Deploy Prometheus using one of the following commands:
 
 ```bash
-kubectl create -n argocd -f project/development-project.yaml
-```
-###  Prometheus Installation
-Deploy Prometheus using the following command:
-
-```bash
-kubectl create -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/bundle.yaml
+kubectl create -f prometheus/bundle.yaml
 ```
 Create the Prometheus service account and role binding:
 
@@ -120,7 +110,7 @@ Create the Prometheus ServiceMonitor:
 kubectl apply -f prometheus/prometheus-servicemonitor.yaml
 ```
 
-### Grafana Installation
+### Grafana
 
 To install Grafana, follow these steps:
 
@@ -130,7 +120,7 @@ kubectl create -f grafana/datasources-config.yaml
 kubectl create -f grafana/dashboard-providers-config.yaml
 kubectl create -f grafana/dashboard-config.yaml
 ```
-Apply the Grafana YAML file:
+Apply the Grafana YAML file where are its service, deployment, and volume:
 ```bash
 kubectl apply -f grafana/grafana.yaml
 ```
@@ -145,35 +135,51 @@ Open your web browser and go to http://127.0.0.1:3000.
 
 Log in to Grafana using the default username and password (admin/admin), then change the password to a secure one.
 
-Check the Prometheus datasource by navigating to Data Sources and adding a new one.
+You will see the only one `NodeJS Application Dashboard` in the list of available dashboards. It won't have any data because we haven't deployed the NodeJS app yet.
 
-Get the IP for the URL by running the following command:
-
-```bash
-kubectl get service
-```
-Look for the prometheus service and note the ClusterIP address.
-
-Import the Prometheus dashboard by going to https://grafana.com/grafana/dashboards/3662-prometheus-2-0-overview/ and using the dashboard ID `3662`.
-
-### Node.js Application Installation
+![NodeJS Application Dashboard](img.png)
+### Node.js Application
 To install the Node.js application, follow these steps:
 
-Create the necessary Kubernetes resources using the following command:
+Create the app in Kubernetes using the following command:
 ```bash
 kubectl create -n argocd -f nodejs-application.yaml
 ```
 Wait a few minutes for the application to be deployed.
 
-To delete the application, run the following command:
+Got to http://localhost:8080/argocd/applications you will see the NodeJS app in the list of applications.
+
+Go to http://localhost:9090/targets, and you will see the NodeJS app in the list of targets (be sure you're forwarding port 9090).
+
+And finally, check the Grafana dashboard http://127.0.0.1:3000, you will see the data coming from the NodeJS app.
+
+That's it!
+
+
+## Other useful commands
+
+
+### Cluster Deletion
+To delete the cluster, run:
 
 ```bash
-kubectl delete app nodejsapp -n argocd
+k3d cluster delete --all
+```
+Be aware, it will remove everything you have in the cluster. In our case it's all because we're using only one cluster.
+### Namespace & Project Creation
+If you need to create a development namespace, run:
+
+```bash
+kubectl create namespace dev
+```
+To create a new project in the default namespace, run:
+
+```bash
+kubectl create -n default -f project/development-project.yaml
 ```
 
-That's it! You can now access the Node.js application by visiting http://localhost:8080.
+You can do the same from ArgoCD UI.
 
-## Usage
 ### Grafana
 To use Grafana, follow these steps:
 
@@ -187,16 +193,37 @@ Log in to Grafana using your username and password.
 
 You can now create and manage your dashboards.
 
-### Node.js Application
-To use the Node.js application, follow these steps:
+If you need to change the Prometheus datasource (the default is `http://prometheus:9090`), do it by navigating to Data Sources in Grafana and adding a new one.
+If you don't know but need your Prometheus URL, run the following command to get the IP for the URL:
 
-Forward the application port to your local machine using the following command:
+```bash
+kubectl get service
+
+NAME                  TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes            ClusterIP      10.43.0.1       <none>        443/TCP          162m
+prometheus-operator   ClusterIP      None            <none>        8080/TCP         6m42s
+prometheus-operated   ClusterIP      None            <none>        9090/TCP         6m24s
+prometheus            ClusterIP      10.43.149.122   <none>        9090/TCP         5m59s
+grafana               LoadBalancer   10.43.85.221    172.20.0.2    3000:30559/TCP   3m36s
+```
+Look for the prometheus service and note the ClusterIP address.
+For our case it will be `http://10.43.149.122:9090`
+
+Also, you can import the Prometheus dashboard by going to https://grafana.com/grafana/dashboards/3662-prometheus-2-0-overview/ and using the dashboard ID `3662`, it has a lot of beautiful graphs to look and play with.
+
+### Node.js Application
+
+To see what Prometheus metrics looks like, forward the `80` port from Node.js app to your local machine using the following command:
 ```bash
 kubectl port-forward service/nodejsapp --namespace=default 80:80
 ```
-Open your web browser and go to http://localhost/metrics.
+Then go to http://localhost/metrics, and you will see the metrics.
 
-You can now view the application metrics.
+To delete the application, run the following command:
+
+```bash
+kubectl delete app nodejsapp -n argocd
+```
 
 ### Important Paths
 Here are some important paths that you may need to access:
@@ -206,7 +233,7 @@ Here are some important paths that you may need to access:
 * /etc/grafana/provisioning/datasources: Contains datasource YAML files
 
 ### Restarting Deployments
-To restart a deployment, use the following command:
+To restart any deployment, use the following command:
 
 ```bash
 kubectl rollout restart deployment <deployment_name> -n <namespace>
@@ -216,12 +243,12 @@ To delete all resources in the default namespace, use the following command:
 ```bash
 kubectl delete all --all --namespace default
 ```
-Remember this command! It will help you clean up your cluster. k3s it's a lightweight alternative to k8s, but it's still a huge tool which can use the whole of your resources and your machine will stuck.
+Remember this command along with deleting clusters command! 
 
-
+It will help you clean up your cluster. k3s it's a lightweight alternative to k8s, but it's still a huge tool which can use the whole of your resources and your machine will stuck. Especially when you're playing with memory in yamls.
 
 ### Just FYI
 
-If you use the prom-client library https://github.com/siimon/prom-client, please look at the memory leak fix I've made here https://github.com/madlopt/simple-nodejs-app
+If you use the prom-client library https://github.com/siimon/prom-client, please look at the memory leak fix I've made here https://github.com/madlopt/simple-nodejs-app, it's simple and silly, but it could save you a lot of time.
 
 
