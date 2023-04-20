@@ -247,6 +247,22 @@ Remember this command along with deleting clusters command!
 
 It will help you clean up your cluster. k3s it's a lightweight alternative to k8s, but it's still a huge tool which can use the whole of your resources and your machine will stuck. Especially when you're playing with memory in yamls.
 
+### What are the ArgoCD, Ingress, Prometheus, and Grafana?
+
+**ArgoCD** is a tool for automating continuous delivery of applications to Kubernetes clusters. It uses GitOps methodology to synchronize the desired state of the application with the actual state in the cluster.
+
+**Ingress** is a Kubernetes resource that provides external access to the services running inside a cluster. It is a way to route incoming traffic to the correct service and also allows for load balancing and SSL termination.
+
+**Prometheus** is a monitoring and alerting tool for Kubernetes and other systems. It collects metrics from various sources, stores them in a time-series database, and allows users to query and visualize the data. It also has a built-in alerting system that can send notifications based on specific conditions.
+
+**Grafana** is a tool for visualizing and analyzing data from various sources, including Prometheus. It provides a flexible and customizable dashboard that allows users to create graphs, charts, and other visualizations to monitor the performance of their systems. Grafana also has a built-in alerting system that can trigger notifications based on specific thresholds.
+
+### What are the k3s and k8s?
+
+**K8S**, or Kubernetes, is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications. It was originally developed by Google and is now maintained by the Cloud Native Computing Foundation (CNCF). Kubernetes provides a way to deploy and manage containerized applications across multiple nodes and multiple clusters, making it a popular choice for deploying microservices-based architectures.
+
+**K3S** is a lightweight Kubernetes distribution that is designed for use in resource-constrained environments, such as edge computing devices, IoT devices, and other small compute platforms. K3S is designed to be easy to install and operate, with a minimal footprint that requires less memory and CPU resources than a full Kubernetes cluster. K3S includes many of the same features as Kubernetes, but with a smaller footprint and a simplified configuration process.
+
 ### Just FYI
 
 If you use the prom-client library https://github.com/siimon/prom-client, please look at the memory leak fix I've made here https://github.com/madlopt/simple-nodejs-app, it's simple and silly, but it could save you a lot of time.
