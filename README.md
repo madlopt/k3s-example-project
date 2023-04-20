@@ -5,6 +5,8 @@ This project is for developers who want to try and play with Kubernetes themselv
 After installation, you will have a Kubernetes cluster with ArgoCD, Ingress, Prometheus, Grafana and a simple NodeJS app deployed to it.
 So, you can learn how to deploy your own apps to Kubernetes and monitor them, learn how to use ArgoCD, Prometheus and Grafana.
 
+If you don't even know what is this, go [here](#what-are-the-argocd-ingress-prometheus-and-grafana).
+
 I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io. So, you can run it on your laptop easily.
 All the commands are tested on Ubuntu 22.04.
 ```bash
