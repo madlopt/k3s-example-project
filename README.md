@@ -7,7 +7,9 @@ So, **you can learn how to deploy your own apps to Kubernetes and monitor them**
 
 If you don't even know what is this, go [here](#what-are-the-argocd-ingress-prometheus-and-grafana).
 
-I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io. So, **you can run it on your laptop** easily.
+I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io. 
+
+So, **you can run it on your laptop** easily.
 All the commands are tested on Ubuntu 22.04.
 ```bash
 k3d version v5.4.6
