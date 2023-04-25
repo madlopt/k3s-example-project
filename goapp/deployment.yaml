@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goapp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: goapp
+  template:
+    metadata:
+      labels:
+        app: goapp
+    spec:
+      containers:
+      - image: madloptus/goapp:latest
+        name: goapp
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "10m"
+          limits:
+            memory: "128Mi"
+        env:
+          - name: PROJECT_NAME
+            value: "go-test-app"
+          - name: CONSOLE_LOG_TIMEOUT
+            value: "5000"
+          - name: METRICS_ROUTE
+            value: "/metrics"
+          - name: METRICS_PORT
+            value: "8080"
+          - name: METRICS_COMPONENT
+            value: "applications"
+          - name: METRICS_SOURCE
+            value: "go-test-app"
+          - name: METRICS_NAMESPACE
+            value: "default"
+        ports:
+        - containerPort: 8080
