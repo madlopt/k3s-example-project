@@ -1,6 +1,6 @@
 # k3s-example-project
 
-This project is for developers who want to try and play with Kubernetes themselves but never had an opportunity to do so.
+This project is for developers who want to try and play and learn Kubernetes themselves but never had an opportunity to do so.
 
 After installation, you will have a Kubernetes cluster with ArgoCD, Ingress, Prometheus, Grafana and 3 simple applications written in [NodeJS](https://github.com/madlopt/simple-nodejs-app), [Go](https://github.com/madlopt/simple-go-app) and [ReactPHP](https://github.com/madlopt/simple-react-php-app).
 So, **you can learn how to deploy your own apps to Kubernetes and monitor them**, learn how to use ArgoCD, Prometheus and Grafana.
