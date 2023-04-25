@@ -22,7 +22,7 @@ spec:
   version: v2.22.1
   serviceMonitorSelector:
     matchExpressions:
-      - {key: app, operator: In, values: [nodejsapp, prometheus]}
+      - {key: app, operator: In, values: [nodejsapp, goapp, phpapp, anyapp, prometheus]}
   podMonitorSelector:
     matchExpressions:
-      - {key: app, operator: In, values: [nodejsapp, prometheus]}
+      - {key: app, operator: In, values: [nodejsapp, goapp, phpapp, anyapp, prometheus]}

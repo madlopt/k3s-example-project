@@ -1,10 +1,13 @@
 # k3s-example-project
 
 This project is for developers who want to try and play with Kubernetes themselves but never had an opportunity to do so.
-After installation, you will have a Kubernetes cluster with ArgoCD, Ingress, Prometheus, Grafana and a simple NodeJS app deployed to it.
-So, you can learn how to deploy your own apps to Kubernetes and monitor them, learn how to use ArgoCD, Prometheus and Grafana.
 
-I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io. So, you can run it on your laptop easily.
+After installation, you will have a Kubernetes cluster with ArgoCD, Ingress, Prometheus, Grafana and a simple NodeJS app deployed to it.
+So, **you can learn how to deploy your own apps to Kubernetes and monitor them**, learn how to use ArgoCD, Prometheus and Grafana.
+If you don't even know what is this, go [here](#what-are-the-argocd-ingress-prometheus-and-grafana).
+
+I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io. 
+So, **you can run it on your laptop** easily.
 All the commands are tested on Ubuntu 22.04.
 ```bash
 k3d version v5.4.6
@@ -43,7 +46,7 @@ k3d --version
 Then clone the repository and run the following commands from the root of the project.
 
 ### Cluster Creation
-Create a k3d cluster by running the following command:
+Create a `k3d-dev-cluster` cluster by running the following command:
 
 ```bash
 k3d cluster create dev-cluster --port 8080:80@loadbalancer --port 8443:443@loadbalancer
@@ -130,11 +133,11 @@ Forward the Grafana port to your local machine using the following command:
 ```bash
 kubectl port-forward service/grafana 3000:3000
 ```
-Open your web browser and go to http://127.0.0.1:3000.
+Open your web browser and go to http://localhost:3000.
 
 Log in to Grafana using the default username and password (admin/admin), then change the password to a secure one.
 
-You will see the only one `NodeJS Application Dashboard` in the list of available dashboards. It won't have any data because we haven't deployed the NodeJS app yet.
+You will see the only one `Applications Dashboard` in the list of available dashboards. It won't have any data because we haven't deployed the NodeJS app yet.
 
 ![NodeJS Application Dashboard](img.png)
 ### Node.js Application
@@ -142,15 +145,22 @@ To install the Node.js application, follow these steps:
 
 Create the app in Kubernetes using the following command:
 ```bash
-kubectl create -n argocd -f nodejs-application.yaml
+kubectl create -n argocd -f nodejsapp/application.yaml
+```
+Wait a few minutes for the application to be deployed.
+### Go Application
+To install the Go application, follow these steps:
+
+```bash
+kubectl create -n argocd -f goapp/application.yaml
 ```
 Wait a few minutes for the application to be deployed.
 
-Got to http://localhost:8080/argocd/applications you will see the NodeJS app in the list of applications.
+Got to http://localhost:8080/argocd/applications you will see the apps in the list of applications.
 
-Go to http://localhost:9090/targets, and you will see the NodeJS app in the list of targets (be sure you're forwarding port 9090).
+Go to http://localhost:9090/targets, and you will see the apps in the list of targets (be sure you're forwarding port 9090).
 
-And finally, check the Grafana dashboard http://127.0.0.1:3000, you will see the data coming from the NodeJS app.
+And finally, check the Grafana dashboard http://localhost:3000, you will see the data coming from the apps.
 
 That's it!
 
@@ -186,7 +196,7 @@ Forward the Grafana port to your local machine using the following command:
 ```bash
 kubectl port-forward service/grafana 3000:3000
 ```
-Open your web browser and go to http://127.0.0.1:3000.
+Open your web browser and go to http://localhost:3000.
 
 Log in to Grafana using your username and password.
 
@@ -245,6 +255,22 @@ kubectl delete all --all --namespace default
 Remember this command along with deleting clusters command! 
 
 It will help you clean up your cluster. k3s it's a lightweight alternative to k8s, but it's still a huge tool which can use the whole of your resources and your machine will stuck. Especially when you're playing with memory in yamls.
+
+### What are the ArgoCD, Ingress, Prometheus, and Grafana?
+
+**ArgoCD** is a tool for automating continuous delivery of applications to Kubernetes clusters. It uses GitOps methodology to synchronize the desired state of the application with the actual state in the cluster.
+
+**Ingress** is a Kubernetes resource that provides external access to the services running inside a cluster. It is a way to route incoming traffic to the correct service and also allows for load balancing and SSL termination.
+
+**Prometheus** is a monitoring and alerting tool for Kubernetes and other systems. It collects metrics from various sources, stores them in a time-series database, and allows users to query and visualize the data. It also has a built-in alerting system that can send notifications based on specific conditions.
+
+**Grafana** is a tool for visualizing and analyzing data from various sources, including Prometheus. It provides a flexible and customizable dashboard that allows users to create graphs, charts, and other visualizations to monitor the performance of their systems. Grafana also has a built-in alerting system that can trigger notifications based on specific thresholds.
+
+### What are the k3s and k8s?
+
+**K8S**, or Kubernetes, is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications. It was originally developed by Google and is now maintained by the Cloud Native Computing Foundation (CNCF). Kubernetes provides a way to deploy and manage containerized applications across multiple nodes and multiple clusters, making it a popular choice for deploying microservices-based architectures.
+
+**K3S** is a lightweight Kubernetes distribution that is designed for use in resource-constrained environments, such as edge computing devices, IoT devices, and other small compute platforms. K3S is designed to be easy to install and operate, with a minimal footprint that requires less memory and CPU resources than a full Kubernetes cluster. K3S includes many of the same features as Kubernetes, but with a smaller footprint and a simplified configuration process.
 
 ### Just FYI
 

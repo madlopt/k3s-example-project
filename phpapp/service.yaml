@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpapp
+  labels:
+    app: phpapp
+spec:
+  ports:
+    - name: web
+      port: 8000
+      targetPort: 8000
+  selector:
+    app: phpapp

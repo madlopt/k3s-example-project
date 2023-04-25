@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: phpapp-service-monitor
+  labels:
+    app: phpapp
+spec:
+  endpoints:
+    - interval: 15s
+      port: web
+  selector:
+    matchLabels:
+      app: phpapp
