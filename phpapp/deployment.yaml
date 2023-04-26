@@ -30,7 +30,7 @@ spec:
           - name: METRICS_ROUTE
             value: "/metrics"
           - name: METRICS_PORT
-            value: "8000"
+            value: "80"
           - name: METRICS_COMPONENT
             value: "applications"
           - name: METRICS_SOURCE
@@ -38,4 +38,4 @@ spec:
           - name: METRICS_NAMESPACE
             value: "default"
         ports:
-        - containerPort: 8000
+        - containerPort: 80
