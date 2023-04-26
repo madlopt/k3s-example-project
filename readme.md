@@ -6,7 +6,7 @@ After installation, you will have a Kubernetes cluster with ArgoCD, Ingress, Pro
 So, **you can learn how to deploy your own apps to Kubernetes and monitor them**, learn how to use ArgoCD, Prometheus and Grafana.
 If you don't even know what is this, go [here](#what-are-the-argocd-ingress-prometheus-and-grafana).
 
-I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io. 
+I'm using here the lightweight Kubernetes distribution called **k3s** https://k3s.io.
 So, **you can run it on your laptop** easily.
 All the commands are tested on Ubuntu 22.04.
 ```bash
@@ -94,6 +94,8 @@ You can check if the Prometheus instance is running by running:
 ```bash
 kubectl get prometheus
 ```
+Look at the `AVAILABLE` it should be `True`
+
 Create the Prometheus service:
 
 ```bash
@@ -133,7 +135,7 @@ Forward the Grafana port to your local machine using the following command:
 ```bash
 kubectl port-forward service/grafana 3000:3000
 ```
-Open your web browser and go to http://localhost:3000.
+Wait a bit then open your web browser and go to http://localhost:3000.
 
 Log in to Grafana using the default username and password (admin/admin), then change the password to a secure one.
 
@@ -240,6 +242,8 @@ To delete the application, run the following command:
 ```bash
 kubectl delete app nodejsapp -n argocd
 ```
+You can delete and forward ports in the same way with the rest of the apps.
+
 
 ### Important Paths
 Here are some important paths that you may need to access:
@@ -259,7 +263,7 @@ To delete all resources in the default namespace, use the following command:
 ```bash
 kubectl delete all --all --namespace default
 ```
-Remember this command along with deleting clusters command! 
+Remember this command along with deleting clusters command!
 
 It will help you clean up your cluster. k3s it's a lightweight alternative to k8s, but it's still a huge tool which can use the whole of your resources and your machine will stuck. Especially when you're playing with memory in yamls.
 
@@ -282,5 +286,3 @@ It will help you clean up your cluster. k3s it's a lightweight alternative to k8
 ### Just FYI
 
 If you use the prom-client library https://github.com/siimon/prom-client, please look at the memory leak fix I've made here https://github.com/madlopt/simple-nodejs-app, it's simple and silly, but it could save you a lot of time.
-
-
