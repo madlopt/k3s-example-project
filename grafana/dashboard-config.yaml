@@ -126,7 +126,7 @@ data:
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum by(pod) (changes(http_requests_counter[$__range]))",
+              "expr": "sum by(pod) (http_requests_counter)",
               "hide": false,
               "legendFormat": "pod - {{pod}}",
               "range": true,
@@ -788,6 +788,15 @@ data:
             }
           ],
           "title": "Go Version",
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": "go(.*)",
+                "renamePattern": "$1"
+              }
+            }
+          ],
           "type": "stat"
         },
         {
@@ -903,6 +912,91 @@ data:
           "fieldConfig": {
             "defaults": {
               "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 5,
+            "x": 19,
+            "y": 16
+          },
+          "id": 43,
+          "interval": "",
+          "links": [],
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "limit": 1,
+              "values": true
+            },
+            "textMode": "name"
+          },
+          "pluginVersion": "9.1.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "(php_info)",
+              "format": "time_series",
+              "instant": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{version}}",
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": "PHP Version",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
                 "mode": "palette-classic"
               },
               "custom": {
@@ -992,7 +1086,7 @@ data:
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "Heap Total - {{instance}} - {{space}}",
+              "legendFormat": "Heap Total - {{pod}} - {{instance}} - {{space}}",
               "range": true,
               "refId": "A"
             }
@@ -1059,12 +1153,12 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 7,
             "w": 9,
             "x": 10,
             "y": 21
           },
-          "id": 12,
+          "id": 44,
           "links": [],
           "options": {
             "legend": {
@@ -1093,16 +1187,28 @@ data:
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "nodejs_heap_space_size_available_bytes",
+              "expr": "sum (memory_usage) by (pod)",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "Heap Used - {{instance}} - {{space}}",
+              "legendFormat": "Usage {{pod}}",
               "range": true,
               "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "sum (memory_peak_usage) by (pod)",
+              "hide": false,
+              "legendFormat": "Peak Usage {{pod}}",
+              "range": true,
+              "refId": "B"
             }
           ],
-          "title": "Heap Available Detail",
+          "title": "PHP Apps Memory Usage",
           "type": "timeseries"
         },
         {
@@ -1202,12 +1308,117 @@ data:
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "Heap Used - {{instance}} - {{space}}",
+              "legendFormat": "Heap Used - {{pod}} - {{instance}} - {{space}}",
               "range": true,
               "refId": "A"
             }
           ],
           "title": "Heap Used Detail",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "decbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 9,
+            "x": 10,
+            "y": 28
+          },
+          "id": 12,
+          "links": [],
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Last *",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.1.6",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "nodejs_heap_space_size_available_bytes",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Heap Used - {{pod}} - {{instance}} - {{space}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Heap Available Detail",
           "type": "timeseries"
         }
       ],
