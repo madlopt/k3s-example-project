@@ -7,7 +7,7 @@ metadata:
 spec:
   ports:
     - name: web
-      port: 80
-      targetPort: 80
+      port: 8000
+      targetPort: 8000
   selector:
     app: phpapp

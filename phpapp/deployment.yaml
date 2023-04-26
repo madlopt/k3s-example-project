@@ -30,7 +30,7 @@ spec:
           - name: METRICS_ROUTE
             value: "/metrics"
           - name: METRICS_PORT
-            value: "80"
+            value: "8000"
           - name: METRICS_COMPONENT
             value: "applications"
           - name: METRICS_SOURCE
